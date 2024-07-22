@@ -4,12 +4,21 @@ const cors = require('cors');
 const multer = require('multer');
 require('dotenv').config();
 
+
 const app = express();
 const PORT = 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.get('/', async (req, res) => {
+  res.send("Hello from ysa backend");
+})
+
+app.get('/api/email', async (req, res) => {
+  res.send("Hello from email backend");
+})
 
 // Set up Multer for file uploads
 const storage = multer.memoryStorage();
@@ -57,6 +66,7 @@ app.post('/api/email', upload.single('file'), (req, res) => {
       }
     ];
   }
+
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
