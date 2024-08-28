@@ -26,7 +26,7 @@ const upload = multer({ storage: storage });
 
 // Route to handle form submission
 app.post('/api/email', upload.single('file'), (req, res) => {
-  const { name, email, phone, companyName, industry, companySize, additionalInfo, plan, agents, day, date } = req.body;
+  const { name, email, phone, companyName, industry, companySize, additionalInfo, plan, agents, date, time } = req.body;
   const file = req.file;
 
   // Set up Nodemailer transport
@@ -41,7 +41,7 @@ app.post('/api/email', upload.single('file'), (req, res) => {
   let mailOptions = {
     from: email,
     to: process.env.EMAIL_USER,
-    subject: `Contact form submission from ${name} <${email}>`,
+    subject: `YSA Booking form submission from ${name} <${email}>`,
     text: `
       Name: ${name}
       Email: ${email}
@@ -52,8 +52,8 @@ app.post('/api/email', upload.single('file'), (req, res) => {
       Additional Info: ${additionalInfo}
       Plan: ${plan}
       Agents: ${agents}
-      Day: ${day}
       Date: ${date}
+      Time: ${time}
     `
   };
 
@@ -66,7 +66,6 @@ app.post('/api/email', upload.single('file'), (req, res) => {
       }
     ];
   }
-
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
